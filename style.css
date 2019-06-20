@@ -2,11 +2,36 @@
 	box-sizing: border-box;
 }
 
-body {
+
+.container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center, space-around;
 	text-align: center;
 	margin-right: auto;
 	margin-left: auto;
+	margin: 10px;
+	padding: 10px;
+	font-family: 'Poppins', sans-serif;
+}
+
+.results {
+	padding: 20px;
+	margin: 20px;
+}
+
+.park-listed {
+	border: 3px dotted green;
+	border-radius: 5px;
+	font-family: 'Rubik', sans-serif;
+	padding: 20px;
+}
+
+.park-listed a {
+	text-decoration: none;
+	color: black
+}
+
+.park-listed a:hover {
+	color: lightgreen;
 }

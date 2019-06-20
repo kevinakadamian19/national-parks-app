@@ -2,7 +2,7 @@
 
 const apiKey = 'xebyCafH4BZIhfcFMrusFoNAVXeylI5cQhXewZsU';
 
-const baseUrl = 'https://developer.nps.gov/api/v1';
+const baseUrl = 'https://developer.nps.gov/api/v1/parks';
 
 function formatQuery(params) {
 	const queryItems = Object.keys(params)
@@ -11,54 +11,56 @@ function formatQuery(params) {
 }
 
 function getParks() {
+	const states = $('#states').val();
+	const searchNumber = $('#search-number').val();
+
 	const params = {
-		parkCode: ,
-		stateCode:'CA' ,
-		limit: 50,
-		start: 50,
-		q: query,
-		fields: ,
-		sort: ,
-	}
-	const options = {
-		headers: new Headers({
-		X-Api-Key: apiKey})
+		parkCode: "",
+		stateCode: `${states}`,
+		limit: searchNumber,
+		start: 1,
+		q: "national park",
+		"api_key": apiKey
 	};
 
 	const queryString = formatQuery(params);
 	const newUrl = baseUrl + '?' + queryString;
 
-	console.log(newUrl);
-	fetch(newUrl, options)
-	.then(response => {
-		if(response.ok) {
-			return response.json();
-		}
-		throw new Error(response.statusText);
-	})
-	.then(responseJson => displayParks(responseJson))
-	.catch(error => alert('Something is wrong with pulling from API.'))
+	fetch(newUrl)
+		.then(response => {
+			if(response.ok) {
+				return response.json();
+			}
+			throw new Error(response.statusText);
+		})
+		.then(responseJson => displayParks(responseJson))
+		.catch(err => alert('Something is wrong.'));
 }
 
-function displayParks() {
+function displayParks(responseJson) {
+	console.log(responseJson)
 	$('.results').empty();
-	const parks = responseJson.responses;
-	for(i = 0;i <= parks.length; i++) {
+	const parks = responseJson.data;
+	for(i = 0;i < parks.length; i++) {
 		$('.results').append(`
-			<h2>${responseJson[i].FullName}</h2>
-			<p>${responseJson[i].description}</p>
-			<a href="${responseJson[i].websiteUrl}">${responseJson[i].websiteUrl}</a>
-
+			<div class="park-listed">
+				<h2>${parks[i].fullName}</h2>
+				<p>${parks[i].description}</p>
+				<a href="${parks[i].url}">${parks[i].url}</a>
+			</div>
 			`)};
-	$('.results').removeClass('hidden');
 }
 
 function watchSubmit() {
 	$('form').submit(event => {
 	event.preventDefault();
-	
 	getParks();
 	});
 }
 
-watchSubmit();
+function renderPage() {
+	console.log('App is ready; waiting for submit!')
+	watchSubmit();
+}
+
+renderPage();

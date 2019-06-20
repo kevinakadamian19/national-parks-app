@@ -6,13 +6,15 @@
 	<title>National Parks Vacation App</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=Rubik&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins|Rubik&display=swap" rel="stylesheet">
 </head>
 <body>
 	<div class="container">
 		<h2>National Parks Generator</h2>
 		<form class="js-search">
-			<input type="text" name="state entry" placeholder="State" id="states" maxlength="2">
-			<input type="number" name="number-of-results" placeholder="Number of Results" max="10">
+			<input type="text" name="state entry" placeholder="State" id="states" maxlength="2" required>
+			<input type="number" name="number-of-results" value="10" max="10" min="1" id="search-number">
 			<input type="submit" name="submit-button" id="submit-button">
 		</form>
 		<div class="results">
