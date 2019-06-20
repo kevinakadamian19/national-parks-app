@@ -12,11 +12,12 @@ function formatQuery(params) {
 
 function getParks() {
 	const states = $('#states').val();
+	const statesArray = states.split(",");
 	const searchNumber = $('#search-number').val();
 
 	const params = {
 		parkCode: "",
-		stateCode: `${states}`,
+		stateCode: statesArray,
 		limit: searchNumber,
 		start: 1,
 		q: "national park",
@@ -25,7 +26,7 @@ function getParks() {
 
 	const queryString = formatQuery(params);
 	const newUrl = baseUrl + '?' + queryString;
-
+	
 	fetch(newUrl)
 		.then(response => {
 			if(response.ok) {
@@ -41,6 +42,14 @@ function displayParks(responseJson) {
 	console.log(responseJson)
 	$('.results').empty();
 	const parks = responseJson.data;
+
+	if(parks.length === 0) {
+		$('.results').append(`
+			<h2>Invalid state!</h2>
+			<p>Please enter state abbreviation followed by a comma.</p>
+			`)
+	}
+	else {
 	for(i = 0;i < parks.length; i++) {
 		$('.results').append(`
 			<div class="park-listed">
@@ -49,6 +58,7 @@ function displayParks(responseJson) {
 				<a href="${parks[i].url}">${parks[i].url}</a>
 			</div>
 			`)};
+	}
 }
 
 function watchSubmit() {
